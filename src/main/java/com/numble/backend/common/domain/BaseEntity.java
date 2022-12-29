@@ -3,9 +3,6 @@ package com.numble.backend.common.domain;
 import java.time.LocalDateTime;
 
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.springframework.data.annotation.CreatedDate;
