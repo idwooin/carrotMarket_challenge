@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/numble?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/carrot?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: 1234
 
@@ -14,3 +14,15 @@ spring:
     properties:
       hibernate:
         format_sql: false
+
+  redis:
+    host: localhost
+    port: 6379
+
+jwt:
+  expire-length: 600000
+  refresh-length: 2592000000
+  access:
+    private: 354e30ef14f4aecdf150718028d35fde5c28effa6f443d10c7236403e1387c25d7376b87e5b13c23484972244a1133c4cce748a5184526142787d698c43cc776
+  refresh:
+    private: 6923bdd7545bbd44d06b3ee21ff987960c15713f0823874a6d2afd847a41a16dabfa7e69979fe076816b665a36f9cf89159d4557b9aa3b74a019dbdaaae44b40
