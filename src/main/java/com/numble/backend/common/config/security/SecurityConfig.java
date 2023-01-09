@@ -37,7 +37,7 @@ import com.numble.backend.user.auth.provider.LoginAuthenticationProvider;
 import com.numble.backend.user.auth.vo.Role;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_GET_URI = {
