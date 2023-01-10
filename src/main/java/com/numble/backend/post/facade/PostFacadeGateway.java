@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.numble.backend.post.common.dto.request.PostCreateRequest;
 import com.numble.backend.post.common.dto.response.ProductDetailPageResponse;
 import com.numble.backend.post.common.dto.response.ProductPageResponse;
+import com.numble.backend.post.domain.StockStatus;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,5 +45,10 @@ public class PostFacadeGateway implements PostCommandFacadeSpec, PostQueryFacade
 	@Override
 	public ProductPageResponse findAll(Pageable pageable) {
 		return postQueryFacade.findAll(pageable);
+	}
+
+	@Override
+	public void changeStatus(String postId, String userId, StockStatus stockStatus) {
+		postCommandFacade.changeStatus(postId, userId, stockStatus);
 	}
 }

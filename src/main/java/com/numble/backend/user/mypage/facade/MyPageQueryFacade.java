@@ -1,14 +1,13 @@
 package com.numble.backend.user.mypage.facade;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import com.numble.backend.post.application.query.PostLikeQueryService;
 import com.numble.backend.post.application.query.PostQueryService;
+import com.numble.backend.post.common.dto.response.ProductPageResponse;
 import com.numble.backend.user.auth.application.CustomUserDetailsService;
 import com.numble.backend.user.mypage.common.dto.response.MyChatsResponse;
-import com.numble.backend.user.mypage.common.dto.response.MyLikesResponse;
 import com.numble.backend.user.mypage.common.dto.response.MyPageResponse;
-import com.numble.backend.user.mypage.common.dto.response.MyStockResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,17 +16,17 @@ import lombok.RequiredArgsConstructor;
 public class MyPageQueryFacade {
 	private final CustomUserDetailsService customUserDetailsService;
 	private final PostQueryService postQueryService;
-	private final PostLikeQueryService postLikeQueryService;
+
 	public MyPageResponse findByUserId(String userId) {
 		return customUserDetailsService.findMyPage(userId);
 	}
 
-	public MyStockResponse findMyStock(String userId) {
-		return postQueryService.findMyStock(userId);
+	public ProductPageResponse findMyStock(String userId, Pageable pageable) {
+		return postQueryService.findMyStock(userId, pageable);
 	}
 
-	public MyLikesResponse findMyLikes(String userId) {
-		return postLikeQueryService.findMyLikes(userId);
+	public ProductPageResponse findMyLikes(String userId, Pageable pageable) {
+		return postQueryService.findMyLikes(userId, pageable);
 	}
 
 	public MyChatsResponse findMyChats(String userId) {

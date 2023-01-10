@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.numble.backend.post.application.command.PostCommandService;
 import com.numble.backend.post.common.dto.request.PostCreateRequest;
+import com.numble.backend.post.domain.StockStatus;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,5 +29,9 @@ public class PostCommandFacade {
 
 	public void unlikePost(String postId, String userId) {
 		postCommandService.unlikePost(postId, userId);
+	}
+
+	public void changeStatus(String postId, String userId, StockStatus stockStatus) {
+		postCommandService.changeStatus(postId, userId, stockStatus);
 	}
 }

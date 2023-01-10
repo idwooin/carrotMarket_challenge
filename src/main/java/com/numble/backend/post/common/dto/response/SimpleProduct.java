@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.repository.Query;
 
+import com.numble.backend.post.domain.StockStatus;
 import com.querydsl.core.annotations.QueryProjection;
 
 import lombok.AllArgsConstructor;
@@ -16,18 +17,18 @@ public class SimpleProduct {
 	private String region;
 	private String price;
 	private Long likes;
-	private Boolean sold;
+	private StockStatus stockStatus;
 	private LocalDateTime createdAt;
 
 	@QueryProjection
-	public SimpleProduct(String url, String title, String region, String price, Long likes, Boolean sold,
+	public SimpleProduct(String url, String title, String region, String price, Long likes, StockStatus stockStatus,
 		LocalDateTime createdAt) {
 		this.url = url;
 		this.title = title;
 		this.region = region;
 		this.price = price;
 		this.likes = likes;
-		this.sold = sold;
+		this.stockStatus = stockStatus;
 		this.createdAt = createdAt;
 	}
 }

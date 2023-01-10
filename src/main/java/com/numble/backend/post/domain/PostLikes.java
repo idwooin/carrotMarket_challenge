@@ -22,15 +22,19 @@ public class PostLikes {
 	@Column(name = "like_user_id")
 	private Set<String> likeUsers = new HashSet<>();
 
+	@Column(name = "like_count")
+	private Long likeCount = 0L;
 	public Integer size() {
 		return likeUsers.size();
 	}
 
 	public Boolean add(String userId) {
+		likeCount = likeCount+1;
 		return likeUsers.add(userId);
 	}
 
 	public Boolean remove(String userId) {
+		likeCount = likeCount-1;
 		return likeUsers.remove(userId);
 	}
 

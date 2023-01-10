@@ -4,11 +4,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.numble.backend.post.domain.repository.PostRepository;
-import com.numble.backend.post.exception.PostNotFoundException;
 import com.numble.backend.post.common.dto.response.ProductDetailPageResponse;
 import com.numble.backend.post.common.dto.response.ProductPageResponse;
-import com.numble.backend.user.mypage.common.dto.response.MyStockResponse;
+import com.numble.backend.post.domain.repository.PostRepository;
+import com.numble.backend.post.exception.PostNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +33,16 @@ public class PostQueryServiceImpl implements PostQueryService {
 	}
 
 	@Override
-	public MyStockResponse findMyStock(String userId) {
-		return null;
+	public ProductPageResponse findMyStock(String userId, Pageable pageable) {
+		ProductPageResponse response = postRepository.findMyStock(userId, pageable);
+
+		return response;
+	}
+
+	@Override
+	public ProductPageResponse findMyLikes(String userId, Pageable pageable) {
+		ProductPageResponse response = postRepository.findMyLikes(userId, pageable);
+
+		return response;
 	}
 }

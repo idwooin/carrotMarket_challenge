@@ -1,13 +1,13 @@
 package com.numble.backend.user.mypage.facade;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.numble.backend.post.common.dto.response.ProductPageResponse;
 import com.numble.backend.user.mypage.common.dto.request.UpdateMyPageRequest;
 import com.numble.backend.user.mypage.common.dto.response.MyChatsResponse;
-import com.numble.backend.user.mypage.common.dto.response.MyLikesResponse;
 import com.numble.backend.user.mypage.common.dto.response.MyPageResponse;
-import com.numble.backend.user.mypage.common.dto.response.MyStockResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,13 +30,13 @@ public class MyPageFacadeGateway implements MyPageCommandFacadeSpec, MyPageQuery
 	}
 
 	@Override
-	public MyStockResponse findMyStock(String userId) {
-		return myPageQueryFacade.findMyStock(userId);
+	public ProductPageResponse findMyStock(String userId, Pageable pageable) {
+		return myPageQueryFacade.findMyStock(userId, pageable);
 	}
 
 	@Override
-	public MyLikesResponse findMyLikes(String userId) {
-		return myPageQueryFacade.findMyLikes(userId);
+	public ProductPageResponse findMyLikes(String userId, Pageable pageable) {
+		return myPageQueryFacade.findMyLikes(userId, pageable);
 	}
 
 	@Override

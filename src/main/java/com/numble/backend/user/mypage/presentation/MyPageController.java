@@ -8,10 +8,11 @@ import static com.numble.backend.common.dto.ResponseEnum.MYSTOCK_FIND_SUCCESS;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.numble.backend.common.dto.Response;
+import com.numble.backend.post.common.dto.response.ProductPageResponse;
 import com.numble.backend.user.auth.annotation.CurrentUser;
 import com.numble.backend.user.auth.domain.CustomUser;
 import com.numble.backend.user.mypage.common.dto.request.UpdateMyPageRequest;
 import com.numble.backend.user.mypage.common.dto.response.MyChatsResponse;
-import com.numble.backend.user.mypage.common.dto.response.MyLikesResponse;
 import com.numble.backend.user.mypage.common.dto.response.MyPageResponse;
-import com.numble.backend.user.mypage.common.dto.response.MyStockResponse;
 import com.numble.backend.user.mypage.facade.MyPageFacadeGateway;
 
 import lombok.RequiredArgsConstructor;
@@ -54,21 +54,25 @@ public class MyPageController {
 		return new ResponseEntity<>(new Response<>(MYPAGE_UPDATE_SUCCESS, null), HttpStatus.OK);
 	}
 
-	@GetMapping
-	public ResponseEntity<Response<MyStockResponse>> findMyStock(@CurrentUser CustomUser user) {
-		MyStockResponse myPageResponse = myPageService.findMyStock(user.getId());
+	@GetMapping("/stock")
+	public ResponseEntity<Response<ProductPageResponse>> findMyStock(
+		@CurrentUser CustomUser user,
+		@PageableDefault(size=10) Pageable pageable) {
+		ProductPageResponse productPageResponse = myPageService.findMyStock(user.getId(), pageable);
 
-		return new ResponseEntity<>(new Response<>(MYSTOCK_FIND_SUCCESS, myPageResponse), HttpStatus.OK);
+		return new ResponseEntity<>(new Response<>(MYSTOCK_FIND_SUCCESS, productPageResponse), HttpStatus.OK);
 	}
 
-	@GetMapping
-	public ResponseEntity<Response<MyLikesResponse>> findMyLikes(@CurrentUser CustomUser user) {
-		MyLikesResponse myPageResponse = myPageService.findMyLikes(user.getId());
+	@GetMapping("/likes")
+	public ResponseEntity<Response<ProductPageResponse>> findMyLikes(
+		@CurrentUser CustomUser user,
+		@PageableDefault(size=10) Pageable pageable) {
+		ProductPageResponse productPageResponse = myPageService.findMyLikes(user.getId(), pageable);
 
-		return new ResponseEntity<>(new Response<>(MYLIKES_FIND_SUCCESS, myPageResponse), HttpStatus.OK);
+		return new ResponseEntity<>(new Response<>(MYLIKES_FIND_SUCCESS, productPageResponse), HttpStatus.OK);
 	}
 
-	@GetMapping
+	@GetMapping("/chats")
 	public ResponseEntity<Response<MyChatsResponse>> findMyChats(@CurrentUser CustomUser user) {
 		MyChatsResponse myPageResponse = myPageService.findMyChats(user.getId());
 

@@ -20,8 +20,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @SQLDelete(sql = "update photo set deleted = true where id = ?")
 @Where(clause = "deleted = false")
 public class Photo {
@@ -36,6 +34,12 @@ public class Photo {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "postId")
 	private Post post;
+
+	private Boolean thumbnail = false;
+
+	public Photo(String url) {
+		this.url = url;
+	}
 
 	private Boolean deleted = false;
 

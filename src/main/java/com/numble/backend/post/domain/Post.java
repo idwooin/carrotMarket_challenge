@@ -43,6 +43,7 @@ public class Post extends BaseEntity {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	private String id;
+	private String ownerId;
 
 	private String title;
 
@@ -80,6 +81,7 @@ public class Post extends BaseEntity {
 		this.price = price;
 		this.contents = contents;
 		this.userInfo = userInfo;
+		this.ownerId = userInfo.getUserId();
 	}
 
 	@Override
@@ -123,5 +125,9 @@ public class Post extends BaseEntity {
 
 	public void unlikePost(String userId) {
 		this.likes.remove(userId);
+	}
+
+	public void setStockStatus(StockStatus stockStatus) {
+		this.stockStatus = stockStatus;
 	}
 }

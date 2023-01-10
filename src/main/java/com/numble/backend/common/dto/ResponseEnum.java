@@ -24,7 +24,8 @@ public enum ResponseEnum {
 	POST_FIND_SUCCESS("p003", "상품 상세 페이지 찾기에 성공하였습니다."),
 	POST_FIND_ALL_SUCCESS("p004", "상품 페이지 찾기에 성공하였습니다."),
 	POST_LIKE_SUCCESS("p005", "상품 관심이 등록되었습니다."),
-	POST_UNLIKE_SUCCESS("p005", "상품 관심이 취소되었습니다.");
+	POST_UNLIKE_SUCCESS("p006", "상품 관심이 취소되었습니다."),
+	POST_CHANGE_STATUS_SUCCESS("p007", "상품 상태가 성공적으로 변경되었습니다.");
 
 	private final String code;
 	private final String message;

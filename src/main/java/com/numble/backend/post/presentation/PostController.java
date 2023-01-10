@@ -1,5 +1,6 @@
 package com.numble.backend.post.presentation;
 
+import static com.numble.backend.common.dto.ResponseEnum.POST_CHANGE_STATUS_SUCCESS;
 import static com.numble.backend.common.dto.ResponseEnum.POST_CREATE_SUCCESS;
 import static com.numble.backend.common.dto.ResponseEnum.POST_DELETE_SUCCESS;
 import static com.numble.backend.common.dto.ResponseEnum.POST_FIND_ALL_SUCCESS;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.numble.backend.common.dto.Response;
+import com.numble.backend.post.domain.StockStatus;
 import com.numble.backend.post.facade.PostFacadeGateway;
 import com.numble.backend.post.common.dto.request.PostCreateRequest;
 import com.numble.backend.post.common.dto.response.ProductDetailPageResponse;
@@ -89,5 +91,23 @@ public class PostController {
 	) {
 		postService.unlikePost(postId, user.getId());
 		return ResponseEntity.ok(new Response<>(POST_UNLIKE_SUCCESS, null));
+	}
+
+	@PutMapping("/{postId}/reserved")
+	public ResponseEntity<Response<Void>> changeStatusToReserved(
+		@PathVariable String postId,
+		@CurrentUser CustomUser user
+	) {
+		postService.changeStatus(postId, user.getId(), StockStatus.RESERVED);
+		return ResponseEntity.ok(new Response<>(POST_CHANGE_STATUS_SUCCESS, null));
+	}
+
+	@PutMapping("/{postId}/sold")
+	public ResponseEntity<Response<Void>> changeStatusToSold(
+		@PathVariable String postId,
+		@CurrentUser CustomUser user
+	) {
+		postService.changeStatus(postId, user.getId(), StockStatus.SOLD);
+		return ResponseEntity.ok(new Response<>(POST_CHANGE_STATUS_SUCCESS, null));
 	}
 }

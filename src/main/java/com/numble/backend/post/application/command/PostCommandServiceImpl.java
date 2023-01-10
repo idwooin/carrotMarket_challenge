@@ -13,6 +13,7 @@ import com.numble.backend.common.utils.S3Utils;
 import com.numble.backend.post.common.dto.request.PostCreateRequest;
 import com.numble.backend.post.domain.Photo;
 import com.numble.backend.post.domain.Post;
+import com.numble.backend.post.domain.StockStatus;
 import com.numble.backend.post.domain.repository.PhotoRepository;
 import com.numble.backend.post.domain.repository.PostRepository;
 import com.numble.backend.post.exception.PostNotFoundException;
@@ -98,12 +99,18 @@ public class PostCommandServiceImpl implements PostCommandService{
 		List<Photo> photos = new ArrayList<>();
 
 		for (String fileName : fileNames) {
-			photos.add(Photo.builder()
-				.url(amazonS3Client.getUrl(bucketName, fileName).toString())
-				.build());
+			photos.add(new Photo(amazonS3Client.getUrl(bucketName, fileName).toString()));
 		}
 
 		photoRepository.saveAll(photos);
 		post.updatePhotos(photos);
+	}
+
+	@Transactional
+	public void changeStatus(String postId, String userId, StockStatus stockStatus) {
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> new PostNotFoundException());
+
+		post.setStockStatus(stockStatus);
 	}
 }
