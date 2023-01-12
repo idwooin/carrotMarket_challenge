@@ -23,6 +23,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.numble.backend.common.domain.BaseEntity;
+import com.numble.backend.post.common.dto.request.PostCreateRequest;
 import com.numble.backend.post.exception.InvalidAuthorException;
 import com.numble.backend.user.auth.domain.CustomUser;
 import com.numble.backend.user.auth.domain.UserInfo;
@@ -101,6 +102,13 @@ public class Post extends BaseEntity {
 		if (!this.userInfo.getUserId().equals(userId)) {
 			throw new InvalidAuthorException();
 		}
+	}
+
+	public void updatePost(PostCreateRequest postCreateRequest) {
+		this.title = postCreateRequest.getTitle();
+		this.category = postCreateRequest.getStockCategory();
+		this.price = postCreateRequest.getPrice();
+		this.contents = postCreateRequest.getContents();
 	}
 
 	public void updatePhotos(List<Photo> photos) {

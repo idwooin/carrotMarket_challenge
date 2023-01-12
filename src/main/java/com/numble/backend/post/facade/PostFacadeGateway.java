@@ -27,6 +27,10 @@ public class PostFacadeGateway implements PostCommandFacadeSpec, PostQueryFacade
 		postCommandFacade.delete(postId, userId);
 	}
 
+	public void update(PostCreateRequest postCreateRequest, String userId, List<MultipartFile> multipartFiles, String postId){
+		postCommandFacade.update(postCreateRequest, userId, multipartFiles, postId);
+	}
+
 	@Override
 	public void likePost(String postId, String userId) {
 		postCommandFacade.likePost(postId, userId);

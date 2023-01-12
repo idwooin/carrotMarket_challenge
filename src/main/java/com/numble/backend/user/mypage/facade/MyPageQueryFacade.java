@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class MyPageQueryFacade {
 	private final CustomUserDetailsService customUserDetailsService;
 	private final PostQueryService postQueryService;
+	// private final ChatQueryService chatQueryService;
 
 	public MyPageResponse findByUserId(String userId) {
 		return customUserDetailsService.findMyPage(userId);
@@ -30,6 +31,7 @@ public class MyPageQueryFacade {
 	}
 
 	public MyChatsResponse findMyChats(String userId) {
-		return null;
+		// return chatQueryService.findMyChats(userId);
+		return new MyChatsResponse();
 	}
 }

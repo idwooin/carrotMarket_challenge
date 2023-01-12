@@ -16,6 +16,7 @@ import com.numble.backend.post.domain.Post;
 import com.numble.backend.post.domain.StockStatus;
 import com.numble.backend.post.domain.repository.PhotoRepository;
 import com.numble.backend.post.domain.repository.PostRepository;
+import com.numble.backend.post.exception.InvalidAuthorException;
 import com.numble.backend.post.exception.PostNotFoundException;
 import com.numble.backend.user.auth.domain.UserInfo;
 import com.numble.backend.user.auth.exception.UserNotFoundException;
@@ -42,8 +43,6 @@ public class PostCommandServiceImpl implements PostCommandService{
 		UserInfo user = userInfoRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		System.out.println("postCreateRequest.getContents() = " + postCreateRequest.getContents());
-
 		Post post = new Post(
 			postCreateRequest.getTitle(),
 			postCreateRequest.getStockCategory(),
@@ -66,6 +65,24 @@ public class PostCommandServiceImpl implements PostCommandService{
 		post.validateAuthor(userId);
 
 		postRepository.deleteById(postId);
+	}
+
+	@Override
+	@Transactional
+	public void update(PostCreateRequest postCreateRequest, String userId, List<MultipartFile> multipartFiles, String postId) {
+		UserInfo user = userInfoRepository.findByUserId(userId)
+				.orElseThrow(() -> new UserNotFoundException());
+
+		Post post = postRepository.findById(postId)
+				.orElseThrow(() -> new PostNotFoundException());
+
+		if (!post.getUserInfo().equals(user)) {
+			throw new InvalidAuthorException();
+		}
+
+		post.updatePost(postCreateRequest);
+
+		uploadFiles(multipartFiles, post);
 	}
 
 	@Override

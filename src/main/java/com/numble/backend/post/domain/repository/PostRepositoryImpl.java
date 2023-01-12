@@ -2,10 +2,7 @@ package com.numble.backend.post.domain.repository;
 
 import static com.numble.backend.post.domain.QPhoto.photo;
 import static com.numble.backend.post.domain.QPost.post;
-import static com.numble.backend.user.auth.domain.QUserInfo.userInfo;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +17,12 @@ import com.numble.backend.post.common.dto.response.QOtherProduct;
 import com.numble.backend.post.common.dto.response.QProductDetailPageResponse;
 import com.numble.backend.post.common.dto.response.QSimpleProduct;
 import com.numble.backend.post.common.dto.response.SimpleProduct;
-import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom{
-
 	private final JPAQueryFactory queryFactory;
 
 	@Override

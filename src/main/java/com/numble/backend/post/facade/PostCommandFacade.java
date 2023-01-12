@@ -23,6 +23,10 @@ public class PostCommandFacade {
 		postCommandService.delete(postId, userId);
 	}
 
+	public void update(PostCreateRequest postCreateRequest, String userId, List<MultipartFile> multipartFiles, String postId){
+		postCommandService.update(postCreateRequest, userId, multipartFiles, postId);
+	}
+
 	public void likePost(String postId, String userId) {
 		postCommandService.likePost(postId, userId);
 	}

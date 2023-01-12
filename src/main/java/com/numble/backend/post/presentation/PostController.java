@@ -7,6 +7,7 @@ import static com.numble.backend.common.dto.ResponseEnum.POST_FIND_ALL_SUCCESS;
 import static com.numble.backend.common.dto.ResponseEnum.POST_FIND_SUCCESS;
 import static com.numble.backend.common.dto.ResponseEnum.POST_LIKE_SUCCESS;
 import static com.numble.backend.common.dto.ResponseEnum.POST_UNLIKE_SUCCESS;
+import static com.numble.backend.common.dto.ResponseEnum.POST_UPDATE_SUCCESS;
 
 import java.util.List;
 
@@ -27,11 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.numble.backend.common.dto.Response;
-import com.numble.backend.post.domain.StockStatus;
-import com.numble.backend.post.facade.PostFacadeGateway;
 import com.numble.backend.post.common.dto.request.PostCreateRequest;
 import com.numble.backend.post.common.dto.response.ProductDetailPageResponse;
 import com.numble.backend.post.common.dto.response.ProductPageResponse;
+import com.numble.backend.post.domain.StockStatus;
+import com.numble.backend.post.facade.PostFacadeGateway;
 import com.numble.backend.user.auth.annotation.CurrentUser;
 import com.numble.backend.user.auth.domain.CustomUser;
 
@@ -59,6 +60,18 @@ public class PostController {
 		postService.delete(postId, user.getId());
 
 		return new ResponseEntity<>(new Response<>(POST_DELETE_SUCCESS,null), HttpStatus.OK);
+	}
+
+	@PutMapping("/{postId}")
+	public ResponseEntity<Response<Void>> updatePost(
+		@Valid @RequestBody PostCreateRequest postCreateRequest,
+		@CurrentUser CustomUser user,
+		List<MultipartFile> multipartFiles,
+		@PathVariable("postId") String postId
+	) {
+		postService.update(postCreateRequest, user.getId(), multipartFiles, postId);
+
+		return new ResponseEntity<>(new Response<>(POST_UPDATE_SUCCESS, null), HttpStatus.OK);
 	}
 
 	@GetMapping("/{postId}")
