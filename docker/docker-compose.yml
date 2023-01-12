@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  nginx:
+    restart: always
+    container_name: carrot_nginx
+    build:
+      context: ./docker
+      dockerfile: NginxDockerFile
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - backend
+
+  redis:
+    image: redis:alpine
+    container_name: carrot_redis
+    ports:
+      - "6379:6379"
+
+  backend:
+    restart: always
+    container_name: carrot_backend
+    build:
+      context: ./docker
+      dockerfile: SpringDockerFile
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    environment:
+      SPRING_DATASOURCE_driver-class-name: com.mysql.cj.jdbc.Driver
+      SPRING_DATASOURCE_URL: jdbc:mysql://${RDS_ENDPOINT}:3306/boardker?useSSL=false
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_REDIS_HOST: redis
+      CLOUD_AWS_CREDENTIALS_ACCESSKEY: ${AWS_ACCESS_KEY_ID}
+      CLOUD_AWS_CREDENTIALS_SECRETKEY: ${AWS_SECRET_ACCESS_KEY}
+
+
+    depends_on:
+      - redis

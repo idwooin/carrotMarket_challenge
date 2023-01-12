@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+// 사실상 dto
 public class LoginAuthenticationToken extends AbstractAuthenticationToken {
 
 	private final Object principal;

@@ -8,10 +8,14 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import java.util.Objects;
 
+import com.numble.backend.post.domain.Post;
 import com.numble.backend.user.auth.presentation.dto.UserRegisterRequest;
 
 @Getter
@@ -25,7 +29,6 @@ public class UserInfo {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid")
 	private String id;
-
 	private String userId;
 	private String profileImage;
 	private String phone;
@@ -49,8 +52,12 @@ public class UserInfo {
 	}
 
 	public void editNickNameAndImage(String nickName, String profileImage) {
-		this.profileImage = profileImage;
-		this.nickname = nickName;
+		if (profileImage.isBlank()) {
+			this.profileImage = profileImage;
+		}
+		if (!nickName.isBlank()) {
+			this.nickname = nickName;
+		}
 	}
 
 	@Override

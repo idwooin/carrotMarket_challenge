@@ -26,3 +26,16 @@ jwt:
     private: 354e30ef14f4aecdf150718028d35fde5c28effa6f443d10c7236403e1387c25d7376b87e5b13c23484972244a1133c4cce748a5184526142787d698c43cc776
   refresh:
     private: 6923bdd7545bbd44d06b3ee21ff987960c15713f0823874a6d2afd847a41a16dabfa7e69979fe076816b665a36f9cf89159d4557b9aa3b74a019dbdaaae44b40
+
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY_ID}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
+    s3:
+      bucket: carrotmarket-s3
+      dir: /img
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

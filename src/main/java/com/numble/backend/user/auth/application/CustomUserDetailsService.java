@@ -1,6 +1,8 @@
 package com.numble.backend.user.auth.application;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,10 +11,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.numble.backend.common.utils.S3Utils;
 import com.numble.backend.user.auth.domain.CustomUser;
 import com.numble.backend.user.auth.domain.UserInfo;
 import com.numble.backend.user.auth.exception.UserAlreadyExistsException;
@@ -23,6 +28,8 @@ import com.numble.backend.user.auth.repository.UserInfoRepository;
 import com.numble.backend.user.auth.repository.UserRepository;
 import com.numble.backend.user.auth.repository.dto.UserLookUpResponse;
 import com.numble.backend.user.auth.vo.UserContext;
+import com.numble.backend.user.mypage.common.dto.request.UpdateMyPageRequest;
+import com.numble.backend.user.mypage.common.dto.response.MyPageResponse;
 
 @Service
 @Transactional
@@ -32,6 +39,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
 	private final UserInfoRepository userInfoRepository;
+	private final AmazonS3Client amazonS3Client;
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucketName;
 
 	@Transactional(readOnly = true)
 	@Override
@@ -68,22 +78,32 @@ public class CustomUserDetailsService implements UserDetailsService {
 			.orElseThrow(UserNotFoundException::new);
 	}
 
-	// public void editUserInformation(UserInfoEditRequest editRequest, String userId) {
-	// 	edit(editRequest, userId);
-	// }
+	public void editUserInfo(
+		UpdateMyPageRequest updateMyPageRequest,
+		String userId,
+		MultipartFile multipartFile) {
+		UserInfo user = userInfoRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException());
 
-	// private void edit(UserInfoEditRequest editRequest, String userId) {
-	// 	CustomUser findUser = userRepository.findById(userId)
-	// 		.orElseThrow(UserNotFoundException::new);
-	//
-	// 	UserInfo findUserInfo = userInfoRepository.findByUserId(userId)
-	// 		.orElseThrow(UserNotFoundException::new);
-	//
-	// 	checkAlreadyExistsUser(editRequest.email(), editRequest.nickName());
-	//
-	// 	findUser.editEmail(editRequest.email());
-	// 	findUserInfo.editNickNameAndImage(editRequest.nickName(), editRequest.imageUrl());
-	// }
+		checkAlreadyExistsNickName(updateMyPageRequest.getNickName());
+		String imgUrl = "";
+		if (!multipartFile.isEmpty()) {
+			imgUrl = S3Utils.uploadFileS3(amazonS3Client ,bucketName ,multipartFile);
+		}
+
+		user.editNickNameAndImage(updateMyPageRequest.getNickName(), imgUrl);
+	}
+
+	@Transactional(readOnly = true)
+	public MyPageResponse findMyPage(String userId) {
+		UserInfo user = userInfoRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException());
+
+		return new MyPageResponse(
+			user.getProfileImage(),
+			user.getNickname()
+		);
+	}
 
 	private void checkAlreadyExistsUser(String email, String nickname) {
 		checkAlreadyExistsEmail(email);

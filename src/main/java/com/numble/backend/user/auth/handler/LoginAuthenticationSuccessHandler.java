@@ -25,6 +25,7 @@ import com.numble.backend.user.auth.domain.CustomUser;
 import com.numble.backend.user.auth.jwt.JwtToken;
 import com.numble.backend.user.auth.jwt.JwtTokenFactory;
 
+// LoginAuthenticatoinFilter에서 인증 성공 시 넘어오는 handler
 public class LoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
