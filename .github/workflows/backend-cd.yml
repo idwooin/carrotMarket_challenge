@@ -11,7 +11,7 @@ env:
   PROJECT_NAME: carrot
   BUCKET_NAME: carrot-codedeploy
   CODE_DEPLOY_APP_NAME: carrot
-  DEPLOYMENT_GROUP_NAME: carrot
+  DEPLOYMENT_GROUP_NAME: carrot-codedeploy
 
 
 jobs:
