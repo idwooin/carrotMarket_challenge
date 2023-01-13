@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import com.numble.backend.common.CustomBeanNameGenerator;
 
 @SpringBootApplication
-@ComponentScan(nameGenerator = CustomBeanNameGenerator.class)
+// @ComponentScan(nameGenerator = CustomBeanNameGenerator.class)
 @EnableJpaAuditing
 public class BackendApplication {
 
