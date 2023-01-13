@@ -41,7 +41,7 @@ import com.numble.backend.user.auth.vo.Role;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC_GET_URI = {
-		"/api/bars", "/api/curations", "/api/posts/**", "/actuator/**"
+		"/api/posts/**"
 	};
 
 	private static final String[] PUBLIC_POST_URI = {
