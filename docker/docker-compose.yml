@@ -33,9 +33,9 @@ services:
       - 8080
     environment:
       SPRING_DATASOURCE_driver-class-name: com.mysql.cj.jdbc.Driver
-      SPRING_DATASOURCE_URL: jdbc:mysql://carrot-db.c4i1fa6mrqdu.ap-northeast-2.rds.amazonaws.com:3306/carrot?useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://cdb.c4i1fa6mrqdu.ap-northeast-2.rds.amazonaws.com:3306/carrot?useSSL=false
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Pass2940!
+      SPRING_DATASOURCE_PASSWORD: carrot1234
       SPRING_REDIS_HOST: redis
       CLOUD_AWS_CREDENTIALS_ACCESSKEY: ${AWS_ACCESS_KEY_ID}
       CLOUD_AWS_CREDENTIALS_SECRETKEY: ${AWS_SECRET_ACCESS_KEY}
