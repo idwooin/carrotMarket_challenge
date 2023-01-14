@@ -12,6 +12,7 @@ import lombok.Getter;
 
 @Getter
 public class SimpleProduct {
+	private String postId;
 	private String url;
 	private String title;
 	private String region;
@@ -21,8 +22,9 @@ public class SimpleProduct {
 	private LocalDateTime createdAt;
 
 	@QueryProjection
-	public SimpleProduct(String url, String title, String region, String price, Long likes, StockStatus stockStatus,
+	public SimpleProduct(String postId, String url, String title, String region, String price, Long likes, StockStatus stockStatus,
 		LocalDateTime createdAt) {
+		this.postId = postId;
 		this.url = url;
 		this.title = title;
 		this.region = region;

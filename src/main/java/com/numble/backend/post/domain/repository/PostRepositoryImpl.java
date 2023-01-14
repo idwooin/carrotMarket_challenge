@@ -85,6 +85,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 	public ProductPageResponse findAllPosts(Pageable pageable) {
 		List<SimpleProduct> response = queryFactory
 			.select(new QSimpleProduct(
+				post.id,
 				photo.url,
 				post.title,
 				post.region,
@@ -110,6 +111,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 	public ProductPageResponse findMyStock(String userId, Pageable pageable) {
 		List<SimpleProduct> response = queryFactory
 			.select(new QSimpleProduct(
+				post.id,
 				photo.url,
 				post.title,
 				post.region,
@@ -136,6 +138,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 	public ProductPageResponse findMyLikes(String userId, Pageable pageable) {
 		List<SimpleProduct> response = queryFactory
 			.select(new QSimpleProduct(
+				post.id,
 				photo.url,
 				post.title,
 				post.region,
