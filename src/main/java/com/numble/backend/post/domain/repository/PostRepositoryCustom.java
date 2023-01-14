@@ -9,7 +9,7 @@ import com.numble.backend.post.common.dto.response.ProductPageResponse;
 
 public interface PostRepositoryCustom {
 	Optional<ProductDetailPageResponse> findOnePost(String postId);
-	ProductPageResponse findAllPosts(Pageable pageable);
+	ProductPageResponse findAllPosts(String userId, Pageable pageable);
 	ProductPageResponse findMyStock(String userId, Pageable pageable);
 	ProductPageResponse findMyLikes(String userId, Pageable pageable);
 }

@@ -82,8 +82,10 @@ public class PostController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Response<ProductPageResponse>> findPosts(@PageableDefault(size = 10) Pageable pageable) {
-		ProductPageResponse productPageResponse = postService.findAll(pageable);
+	public ResponseEntity<Response<ProductPageResponse>> findPosts(
+		@CurrentUser CustomUser user,
+		@PageableDefault(size = 10) Pageable pageable) {
+		ProductPageResponse productPageResponse = postService.findAll(user.getId(), pageable);
 
 		return new ResponseEntity<>(new Response<>(POST_FIND_ALL_SUCCESS,productPageResponse), HttpStatus.OK);
 	}

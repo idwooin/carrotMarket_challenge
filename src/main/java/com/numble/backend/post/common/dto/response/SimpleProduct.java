@@ -18,18 +18,21 @@ public class SimpleProduct {
 	private String region;
 	private String price;
 	private Long likes;
+	private Boolean isLiked;
 	private StockStatus stockStatus;
 	private LocalDateTime createdAt;
 
 	@QueryProjection
-	public SimpleProduct(String postId, String url, String title, String region, String price, Long likes, StockStatus stockStatus,
-		LocalDateTime createdAt) {
+	public SimpleProduct(String postId, String url, String title,
+		String region, String price, Long likes,
+		StockStatus stockStatus, Boolean isLiked, LocalDateTime createdAt) {
 		this.postId = postId;
 		this.url = url;
 		this.title = title;
 		this.region = region;
 		this.price = price;
 		this.likes = likes;
+		this.isLiked = isLiked;
 		this.stockStatus = stockStatus;
 		this.createdAt = createdAt;
 	}

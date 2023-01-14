@@ -16,7 +16,7 @@ public class PostQueryFacade {
 	ProductDetailPageResponse findById(String postId){
 		return postQueryService.findById(postId);
 	}
-	ProductPageResponse findAll(Pageable pageable){
-		return postQueryService.findAll(pageable);
+	ProductPageResponse findAll(String userId, Pageable pageable){
+		return postQueryService.findAll(userId, pageable);
 	}
 }

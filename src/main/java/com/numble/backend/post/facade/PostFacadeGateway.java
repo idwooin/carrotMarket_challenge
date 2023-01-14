@@ -47,8 +47,8 @@ public class PostFacadeGateway implements PostCommandFacadeSpec, PostQueryFacade
 	}
 
 	@Override
-	public ProductPageResponse findAll(Pageable pageable) {
-		return postQueryFacade.findAll(pageable);
+	public ProductPageResponse findAll(String userId, Pageable pageable) {
+		return postQueryFacade.findAll(userId, pageable);
 	}
 
 	@Override

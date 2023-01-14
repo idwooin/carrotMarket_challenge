@@ -7,5 +7,5 @@ import com.numble.backend.post.common.dto.response.ProductPageResponse;
 
 public interface PostQueryFacadeSpec {
 	ProductDetailPageResponse findById(String postId);
-	ProductPageResponse findAll(Pageable pageable);
+	ProductPageResponse findAll(String userId, Pageable pageable);
 }

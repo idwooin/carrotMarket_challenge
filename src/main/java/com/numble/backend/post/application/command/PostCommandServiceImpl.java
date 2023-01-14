@@ -17,6 +17,7 @@ import com.numble.backend.post.domain.StockStatus;
 import com.numble.backend.post.domain.repository.PhotoRepository;
 import com.numble.backend.post.domain.repository.PostRepository;
 import com.numble.backend.post.exception.InvalidAuthorException;
+import com.numble.backend.post.exception.NoLikeForOwnerPostException;
 import com.numble.backend.post.exception.PostNotFoundException;
 import com.numble.backend.user.auth.domain.UserInfo;
 import com.numble.backend.user.auth.exception.UserNotFoundException;
@@ -89,6 +90,10 @@ public class PostCommandServiceImpl implements PostCommandService{
 	public void likePost(String postId, String userId) {
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new PostNotFoundException());
+
+		if (post.isAuthor(userId)) {
+			throw new NoLikeForOwnerPostException();
+		}
 
 		post.likePost(userId);
 	}

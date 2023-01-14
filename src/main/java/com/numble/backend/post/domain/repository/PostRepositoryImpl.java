@@ -17,6 +17,7 @@ import com.numble.backend.post.common.dto.response.QOtherProduct;
 import com.numble.backend.post.common.dto.response.QProductDetailPageResponse;
 import com.numble.backend.post.common.dto.response.QSimpleProduct;
 import com.numble.backend.post.common.dto.response.SimpleProduct;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -82,7 +83,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 	}
 
 	@Override
-	public ProductPageResponse findAllPosts(Pageable pageable) {
+	public ProductPageResponse findAllPosts(String userId, Pageable pageable) {
 		List<SimpleProduct> response = queryFactory
 			.select(new QSimpleProduct(
 				post.id,
@@ -92,6 +93,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 				post.price,
 				post.likes.likeCount,
 				post.stockStatus,
+				JPAExpressions
+					.selectFrom(post)
+					.where(post.likes.likeUsers.contains(userId))
+					.exists(),
 				post.createdAt
 			))
 			.from(post)
@@ -118,6 +123,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 				post.price,
 				post.likes.likeCount,
 				post.stockStatus,
+				JPAExpressions
+					.selectFrom(post)
+					.where(post.likes.likeUsers.contains(userId))
+					.exists(),
 				post.createdAt
 			))
 			.from(post)
@@ -145,6 +154,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 				post.price,
 				post.likes.likeCount,
 				post.stockStatus,
+				JPAExpressions
+					.selectFrom(post)
+					.where(post.likes.likeUsers.contains(userId))
+					.exists(),
 				post.createdAt
 			))
 			.from(post)

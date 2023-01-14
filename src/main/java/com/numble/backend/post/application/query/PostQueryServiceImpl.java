@@ -26,8 +26,8 @@ public class PostQueryServiceImpl implements PostQueryService {
 	}
 
 	@Override
-	public ProductPageResponse findAll(Pageable pageable) {
-		ProductPageResponse response = postRepository.findAllPosts(pageable);
+	public ProductPageResponse findAll(String userId, Pageable pageable) {
+		ProductPageResponse response = postRepository.findAllPosts(userId, pageable);
 
 		return response;
 	}
