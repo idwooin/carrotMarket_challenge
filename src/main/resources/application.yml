@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/carrot?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://cdb.c4i1fa6mrqdu.ap-northeast-2.rds.amazonaws.com:3306/carrot?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: 1234
+    password: carrot1234
 
   jpa:
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
