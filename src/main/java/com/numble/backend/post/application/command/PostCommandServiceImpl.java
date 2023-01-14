@@ -2,6 +2,7 @@ package com.numble.backend.post.application.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,6 @@ import com.numble.backend.user.auth.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class PostCommandServiceImpl implements PostCommandService{
 
@@ -39,7 +39,6 @@ public class PostCommandServiceImpl implements PostCommandService{
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucketName;
 	@Override
-	@Transactional
 	public void create(PostCreateRequest postCreateRequest, String userId, List<MultipartFile> multipartFiles) {
 		UserInfo user = userInfoRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
@@ -51,14 +50,12 @@ public class PostCommandServiceImpl implements PostCommandService{
 			postCreateRequest.getContents(),
 			user
 		);
+		postRepository.save(post);
 
 		uploadFiles(multipartFiles, post);
-
-		postRepository.save(post);
 	}
 
 	@Override
-	@Transactional
 	public void delete(String postId, String userId) {
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new PostNotFoundException());
@@ -69,7 +66,6 @@ public class PostCommandServiceImpl implements PostCommandService{
 	}
 
 	@Override
-	@Transactional
 	public void update(PostCreateRequest postCreateRequest, String userId, List<MultipartFile> multipartFiles, String postId) {
 		UserInfo user = userInfoRepository.findByUserId(userId)
 				.orElseThrow(() -> new UserNotFoundException());
@@ -106,8 +102,8 @@ public class PostCommandServiceImpl implements PostCommandService{
 		post.unlikePost(userId);
 	}
 
-	@Transactional
-	public void uploadFiles(List<MultipartFile> multipartFiles, Post post) {
+
+	private void uploadFiles(List<MultipartFile> multipartFiles, Post post) {
 		if (multipartFiles == null) {
 			return;
 		}
@@ -120,15 +116,23 @@ public class PostCommandServiceImpl implements PostCommandService{
 
 		List<Photo> photos = new ArrayList<>();
 
-		for (String fileName : fileNames) {
-			photos.add(new Photo(amazonS3Client.getUrl(bucketName, fileName).toString()));
+		ListIterator<String> it = fileNames.listIterator();
+		while (it.hasNext()) {
+			Photo p = new Photo(
+				amazonS3Client.getUrl(bucketName, it.next()).toString(),
+				post);
+
+			if (it.nextIndex() == 1) {
+				p.setThumbnail(Boolean.TRUE);
+			}
+
+			photos.add(p);
 		}
 
 		photoRepository.saveAll(photos);
 		post.updatePhotos(photos);
 	}
 
-	@Transactional
 	public void changeStatus(String postId, String userId, StockStatus stockStatus) {
 		Post post = postRepository.findById(postId)
 			.orElseThrow(() -> new PostNotFoundException());

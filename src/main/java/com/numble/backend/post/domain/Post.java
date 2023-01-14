@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -63,7 +64,7 @@ public class Post extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	private StockStatus stockStatus = StockStatus.SELLING;
 
-	@OneToMany(mappedBy = "post", orphanRemoval = true)
+	@OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Photo> photos = new ArrayList<>();
 
 	@Lob

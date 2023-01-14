@@ -12,7 +12,6 @@ import com.numble.backend.post.exception.PostNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PostQueryServiceImpl implements PostQueryService {
 

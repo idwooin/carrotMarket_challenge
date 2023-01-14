@@ -37,8 +37,13 @@ public class Photo {
 
 	private Boolean thumbnail = false;
 
-	public Photo(String url) {
+	public Photo(String url, Post post) {
 		this.url = url;
+		this.post = post;
+	}
+
+	public void setThumbnail(Boolean thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	private Boolean deleted = false;

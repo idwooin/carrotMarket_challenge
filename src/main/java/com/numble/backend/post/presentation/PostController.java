@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,9 +48,9 @@ public class PostController {
 
 	@PostMapping
 	public ResponseEntity<Response<Void>> createPost(
-		@Valid @RequestBody PostCreateRequest postCreateRequest,
 		@CurrentUser CustomUser user,
-		List<MultipartFile> multipartFiles) {
+		@Valid @RequestPart PostCreateRequest postCreateRequest,
+		@RequestPart(required = false) List<MultipartFile> multipartFiles) {
 		postService.create(postCreateRequest, user.getId(), multipartFiles);
 
 		return new ResponseEntity<>(new Response<>(POST_CREATE_SUCCESS,null), HttpStatus.CREATED);
@@ -64,9 +65,9 @@ public class PostController {
 
 	@PutMapping("/{postId}")
 	public ResponseEntity<Response<Void>> updatePost(
-		@Valid @RequestBody PostCreateRequest postCreateRequest,
 		@CurrentUser CustomUser user,
-		List<MultipartFile> multipartFiles,
+		@Valid @RequestPart PostCreateRequest postCreateRequest,
+		@RequestPart(required = false) List<MultipartFile> multipartFiles,
 		@PathVariable("postId") String postId
 	) {
 		postService.update(postCreateRequest, user.getId(), multipartFiles, postId);

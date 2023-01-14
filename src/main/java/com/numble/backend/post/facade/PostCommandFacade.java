@@ -3,6 +3,7 @@ package com.numble.backend.post.facade;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.numble.backend.post.application.command.PostCommandService;
@@ -12,6 +13,7 @@ import com.numble.backend.post.domain.StockStatus;
 import lombok.RequiredArgsConstructor;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class PostCommandFacade {
 	private final PostCommandService postCommandService;
